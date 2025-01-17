@@ -10,7 +10,7 @@ const port = 5000
 connectDB()
 
 app.use(cors({
-    origin: "",
+    origin: "https://cool-zuccutto-ce6970.netlify.app",
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"]
 }))
