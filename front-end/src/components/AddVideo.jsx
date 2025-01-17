@@ -29,7 +29,7 @@ function AddVideo() {
     event.preventDefault();
 
     try {
-      const response = await axios.post("/api/videos", formData,{
+      const response = await axios.post("https://video-sample.onrender.com/api/videos", formData,{
        headers:{
         "Content-Type":"multipart/form-data"
        }

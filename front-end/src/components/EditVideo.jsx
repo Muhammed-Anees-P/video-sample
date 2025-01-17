@@ -19,7 +19,7 @@ function EditVideo() {
 
     const fetchVideos = async () =>{
         try{
-            const response = await axios.get(`/api/videos/${id}`)
+            const response = await axios.get(`https://video-sample.onrender.com/api/videos/${id}`)
             const video = response.data
             setTitle(video.title)
             setDescription(video.description)
@@ -47,7 +47,7 @@ function EditVideo() {
         }
 
         try{
-            await axios.put(`/api/videos/${id}`, formData , {
+            await axios.put(`https://video-sample.onrender.com/api/videos/${id}`, formData , {
                 headers: {
                     "Content-Type" : "multipart/form-data"
                 }

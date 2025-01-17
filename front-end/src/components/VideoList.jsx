@@ -14,7 +14,7 @@ function VideoList() {
 
   const fetchVideos = async () => {
     try {
-      const response = await axios.get("/api/videos");
+      const response = await axios.get("https://video-sample.onrender.com/api/videos");
       setVideos(response.data);
     } catch (error) {
       console.log("Error fetching videos", error);
@@ -24,7 +24,7 @@ function VideoList() {
   const handleDeleteVideo = async (id) => {
     try {
       const response = await axios.delete(
-        `/api/videos/${id}`
+        `https://video-sample.onrender.com/api/videos/${id}`
       );
       console.log("delete", response.data);
       fetchVideos();
@@ -57,7 +57,7 @@ function VideoList() {
                 variant="top"
                 src={
                   video.image.length > 0
-                    ? `/${video.image[0]}`
+                    ? `https://video-sample.onrender.com/${video.image[0]}`
                     : ""
                 }
                 alt={video.title}
