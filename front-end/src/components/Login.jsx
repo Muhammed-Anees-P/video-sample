@@ -1,21 +1,35 @@
 import React, { useState } from 'react';
 import { Container, Form, Button, Row, Col } from 'react-bootstrap';
 import { useNavigate } from "react-router-dom";
+import axios from 'axios';
+import { apiUrl } from '../../api/api';
 
 function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate(); // Hook to navigate programmatically
+  const navigate = useNavigate(); 
 
   const handleLogin = (e) => {
     e.preventDefault();
 
-    // Mock authentication (replace with actual API call)
-    if (email === "admin@gmail.com" && password === "admin123") {
-      console.log("Login successful");
-      navigate("/admin"); // Redirect to admin page
-    } else {
-      alert("Invalid email or password!");
+    try{
+      const response = axios.get(`${apiUrl}/admin`, {
+        headers:{
+          "Content-Type":"application/json"
+        },
+        params:{
+          email,
+          password
+        }
+      })
+
+      if(response.status === 200){
+        console.log('Login success');
+        navigate('/admin')
+        
+      }
+    }catch(error){
+      console.log(error)
     }
   };
 
