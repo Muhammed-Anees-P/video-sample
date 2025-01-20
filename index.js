@@ -13,7 +13,7 @@ require('dotenv').config()
 connectDB()
 
 app.use(cors({
-    origin: "https://melodic-concha-01e96d.netlify.app",
+    origin: "https://fascinating-quokka-5782f6.netlify.app",
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"]
 }))
