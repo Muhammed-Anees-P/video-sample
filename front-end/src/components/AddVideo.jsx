@@ -3,6 +3,7 @@ import axios from "axios";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { useNavigate } from "react-router-dom";
+import { apiUrl } from "../../api/api";
 
 
 function AddVideo() {
@@ -29,7 +30,7 @@ function AddVideo() {
     event.preventDefault();
 
     try {
-      const response = await axios.post("https://video-sample.onrender.com/api/videos", formData,{
+      const response = await axios.post(`${apiUrl}/videos`, formData,{
        headers:{
         "Content-Type":"multipart/form-data"
        }

@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { useNavigate, useParams } from 'react-router-dom'
+import { apiUrl } from '../../api/api';
 
 function EditVideo() {
     const {id} = useParams()
@@ -19,7 +20,7 @@ function EditVideo() {
 
     const fetchVideos = async () =>{
         try{
-            const response = await axios.get(`https://video-sample.onrender.com/api/videos/${id}`)
+            const response = await axios.get(`${apiUrl}/videos/${id}`)
             const video = response.data
             setTitle(video.title)
             setDescription(video.description)
@@ -47,7 +48,7 @@ function EditVideo() {
         }
 
         try{
-            await axios.put(`https://video-sample.onrender.com/api/videos/${id}`, formData , {
+            await axios.put(`${apiUrl}/videos/${id}`, formData , {
                 headers: {
                     "Content-Type" : "multipart/form-data"
                 }

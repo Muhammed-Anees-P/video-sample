@@ -4,6 +4,7 @@ import { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import { useNavigate } from "react-router-dom";
+import { apiUrl } from "../../api/api";
 
 function VideoList() {
   const [videos, setVideos] = useState([]);
@@ -14,7 +15,7 @@ function VideoList() {
 
   const fetchVideos = async () => {
     try {
-      const response = await axios.get("https://video-sample.onrender.com/api/videos");
+      const response = await axios.get(`${apiUrl}/videos`);
       setVideos(response.data);
     } catch (error) {
       console.log("Error fetching videos", error);
@@ -24,7 +25,7 @@ function VideoList() {
   const handleDeleteVideo = async (id) => {
     try {
       const response = await axios.delete(
-        `https://video-sample.onrender.com/api/videos/${id}`
+        `${apiUrl}/videos/${id}`
       );
       console.log("delete", response.data);
       fetchVideos();
