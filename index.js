@@ -4,21 +4,37 @@ const path = require('path')
 const cors = require('cors')
 const connectDB = require('./database')
 const videoRoute = require('./routes/videoRoutes')
+const userRoute = require('./routes/loginRoutes')
 const port = 5000
+const session = require('express-session')
+require('dotenv').config()
 
 
 connectDB()
 
 app.use(cors({
-    origin: "https://cool-zuccutto-ce6970.netlify.app",
+    origin: "https://melodic-concha-01e96d.netlify.app",
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"]
 }))
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 
-app.use(express.static(path.join(__dirname,'public')))
+//use express sesion
+app.use(session({
+    secret:process.env.SESSION_SECRET,
+    saveUninitialized:true,
+    resave:false,
+    cookie:{
+        maxAge: 24 * 24 * 60 * 1000,
+        httpOnly:true
+    }
+}))
 
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
+
+
+app.use('/api', userRoute)
 app.use('/api', videoRoute)
 
 app.listen(port, () =>{

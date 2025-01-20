@@ -1,0 +1,104 @@
+/* Sidebar container */
+.admin-dashboard {
+    display: flex;
+    height: 100vh;
+  }
+  
+  /* Sidebar styles */
+  .sidebar {
+    width: 250px;
+    background-color: rgb(251, 251, 255);
+    position: fixed; /* Make the sidebar fixed */
+    top: 60px; /* Add margin-top to prevent overlap with fixed topbar */
+    left: 0;
+    height: 100%;
+    padding: 20px;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1); /* Add some shadow for better visibility */
+  }
+  
+  /* Main content area */
+  .main-content {
+    margin-left: 250px; /* Space for the sidebar */
+    padding: 20px;
+    width: 100%;
+    background-color: #f9f9f9;
+    min-height: 100vh;
+    padding-top: 60px; /* Add space for the fixed topbar */
+  }
+  
+  /* Topbar styling */
+  .topbar {
+    background-color: #333;
+    color: white;
+    padding: 15px;
+    position: fixed; /* Fix the topbar */
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 10; /* Ensure it stays above other elements */
+  }
+  
+  /* Topbar wrapper (to align items inside) */
+  .topbarWrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  /* Logo styles */
+  .topLeft .logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+  
+  /* Sidebar menu container */
+  .sidebarMenu {
+    margin-bottom: 20px; /* Add more space between sections */
+  }
+  
+  /* Sidebar section titles */
+  .sidebarTitle {
+    font-size: 13px;
+    color: rgb(187, 186, 186);
+    margin-bottom: 15px; /* Increase margin for better spacing */
+  }
+  
+  /* Sidebar list */
+  .sidebarList {
+    list-style: none;
+    padding: 0;
+  }
+  
+  /* Sidebar list items */
+  .sidebarListItem {
+    padding: 12px 15px; /* Add more padding for better spacing */
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    border-radius: 10px;
+    transition: background-color 0.3s ease; /* Smooth transition for hover */
+  }
+  
+  /* Hover and active states for sidebar items */
+  .sidebarListItem:hover,
+  .sidebarListItem.active {
+    background-color: rgb(240, 240, 255);
+  }
+  
+  /* Sidebar icons */
+  .sidebarIcon {
+    margin-right: 10px;
+    font-size: 20px;
+  }
+  
+  /* Link styles inside sidebar */
+  .link {
+    text-decoration: none;
+    color: inherit;
+  }
+  
+  /* Active link styles */
+  .sidebarListItem.active {
+    background-color: rgb(220, 220, 255); /* Slightly darker active state */
+  }
+  

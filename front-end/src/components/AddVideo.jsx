@@ -7,6 +7,9 @@ import { apiUrl } from "../../api/api";
 
 
 function AddVideo() {
+
+  console.log('add video page loading');
+  
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [image, setImage] = useState(null);
@@ -37,7 +40,7 @@ function AddVideo() {
       });
       console.log("video added" , response.data)
       window.alert("Video added successfully!");
-      navigate("/");
+      navigate("/admin/view-video");
     } catch (error) {
       console.log(error);
     }

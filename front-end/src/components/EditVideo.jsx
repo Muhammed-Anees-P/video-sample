@@ -54,7 +54,7 @@ function EditVideo() {
                 }
             })
             window.alert("Video updated successfully!");
-            navigate('/')
+            navigate('/admin')
         }catch(error){
             console.log("error updating the video", error);
             
