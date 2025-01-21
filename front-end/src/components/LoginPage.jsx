@@ -32,6 +32,10 @@ function LoginPage() {
     }
 };
 
+const handleResetPassword = () =>{
+  navigate('/forgot-password')
+}
+
 
 
   return (
@@ -67,7 +71,7 @@ function LoginPage() {
                 </Button>
     
                 <div className="text-center mt-3">
-                  <Button variant="link" href="/forgot-password">
+                  <Button variant="link" onClick={handleResetPassword}>
                     Forgot Password?
                   </Button>
                 </div>

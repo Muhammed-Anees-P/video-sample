@@ -8,6 +8,7 @@ import Button from 'react-bootstrap/Button';
 import axios from 'axios';
 import { apiUrl } from '../../api/api';
 import EditVideo from './EditVideo';
+import ForgotPassword from './ForgotPassword';
 
 
 
