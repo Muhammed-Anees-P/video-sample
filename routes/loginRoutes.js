@@ -20,7 +20,7 @@ transporter = nodemailer.createTransport({
 
 
 //admin login
-router.get('/login', async(req,res) =>{
+router.post('/login', async(req,res) =>{
     try{
         //fetch data from body
         const {email, password} = req.body
