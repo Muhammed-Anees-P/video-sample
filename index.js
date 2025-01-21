@@ -13,8 +13,8 @@ require('dotenv').config()
 connectDB()
  
 app.use(cors({
-    // origin: "https://resonant-gecko-5bc789.netlify.app",
-    origin:'http://localhost:5173',
+    origin: "https://resonant-gecko-5bc789.netlify.app",
+    // origin:'http://localhost:5173',
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials:true
