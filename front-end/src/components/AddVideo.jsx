@@ -22,25 +22,22 @@ function AddVideo() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    // Initialize FormData inside the handleSubmit function
     const formData = new FormData();
     formData.append("title", title);
     formData.append("description", description);
     formData.append("videoLink", videoLink);
 
-    // Ensure the image is attached to formData
     if (image) {
       formData.append("image", image);
     }
 
-    // Log the FormData to verify its contents
-    console.log("FormData before submission:", formData);
 
     try {
       const response = await axios.post(`${apiUrl}/videos`, formData, {
         headers: {
           "Content-Type": "multipart/form-data"
-        }
+        },
+        withCredentials:true
       });
 
       console.log("Video added", response.data);

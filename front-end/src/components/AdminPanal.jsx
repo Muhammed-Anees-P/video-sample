@@ -7,6 +7,7 @@ import './adminPanal.css'
 import Button from 'react-bootstrap/Button';
 import axios from 'axios';
 import { apiUrl } from '../../api/api';
+import EditVideo from './EditVideo';
 
 
 
@@ -78,6 +79,7 @@ function AdminPanal() {
             <Routes>
               <Route path="/view-video" element={<VideoList />} />  {/* View Videos page */}
               <Route path="/add-video" element={<AddVideo />} />  {/* Add Video page */}
+              <Route path="/edit-video/:id" element={<EditVideo />} />  {/* edit Video page */}
             </Routes>
           </div>
         </div>

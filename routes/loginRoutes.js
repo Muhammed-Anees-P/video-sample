@@ -24,7 +24,7 @@ router.post('/login', async(req,res) =>{
     try{
         //fetch data from body
         const {email, password} = req.body
-        console.log('req.body', req.body);
+        // console.log('req.body', req.body);
         
 
         if(!email || !password) {

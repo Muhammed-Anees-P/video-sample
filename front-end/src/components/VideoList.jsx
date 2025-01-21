@@ -55,7 +55,7 @@ function VideoList() {
           <p>No video Available</p>
         ) : (
           videos.map((video) => (
-            <Card className="me-3" style={{ width: "18rem" }}>
+            <Card key={video._id} className="me-3" style={{ width: "18rem" }}>
               {/* <Card.Img
                 variant="top"
                 src={
@@ -65,6 +65,7 @@ function VideoList() {
                 }
                 alt={video.title}
               /> */}
+              
               <Card.Img
                 variant="top"
                 src={
@@ -73,8 +74,6 @@ function VideoList() {
                     : ""
                 }
                 alt={video.title}
-                
-                
               />
               
 

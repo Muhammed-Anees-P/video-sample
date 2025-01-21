@@ -6,6 +6,8 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { apiUrl } from '../../api/api';
 
 function EditVideo() {
+  console.log("update video page loading");
+  
     const {id} = useParams()
     const navigate = useNavigate()
 
@@ -51,7 +53,8 @@ function EditVideo() {
             await axios.put(`${apiUrl}/videos/${id}`, formData , {
                 headers: {
                     "Content-Type" : "multipart/form-data"
-                }
+                },
+                withCredentials:true
             })
             window.alert("Video updated successfully!");
             navigate('/admin')

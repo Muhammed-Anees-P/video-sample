@@ -7,6 +7,7 @@ const path = require('path')
 
 //multer
 const multer = require('multer')
+const { default: mongoose } = require('mongoose')
 const storage = multer.diskStorage({
     destination:(req,file,callback)=>{
         callback(null,path.join(__dirname,'../public/uploads'))
@@ -27,7 +28,9 @@ router.post('/videos', upload.array('image'),async (req, res) =>{
     try{
         const {title, description, videoLink} = req.body;
         const admin = req.session.adminId
-        const image = req.file?.path
+
+        // console.log(admin);
+        
 
         if(!title || !description  || !videoLink){
             return res.status(400).json({message:"All fields are required"})
@@ -36,6 +39,8 @@ router.post('/videos', upload.array('image'),async (req, res) =>{
         if(!admin){
             return res.status(400).json({message:"Admin not authenticated"})
         }
+
+        const isAdmin = new mongoose.Types.ObjectId(admin)
 
         const imagePaths = req.files ? req.files.map(file => `../uploads/${file.filename}`) : [];
 
@@ -117,9 +122,11 @@ router.put('/videos/:id', upload.array('image'), async (req,res) =>{
             return res.status(400).json({message:"All fields are required"})
         } 
 
+        const isAdmin = new mongoose.Types.ObjectId(admin)
+
         const imagePaths = req.files ? req.files.map(file => `../uploads/${file.filename}`) : [];
         const updatedVideo = await videoModel.findByIdAndUpdate(id,
-            {title,description,image:imagePaths,videoLink, createdBy:admin},
+            {title,description,image:imagePaths,videoLink, createdBy:isAdmin},
             {new:true}
         )
         if(!updatedVideo){
