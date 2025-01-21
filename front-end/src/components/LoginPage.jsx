@@ -9,29 +9,30 @@ function LoginPage() {
   const [password, setPassword] = useState("");
   const navigate = useNavigate(); 
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
 
-    try{
-      const response = axios.post(`${apiUrl}/login`, {
-        headers:{
-          "Content-Type":"application/json"
-        },
-        params:{
-          email,
-          password
-        }
-      })
+    try {
+        const response = await axios.post(`${apiUrl}/login`, {
+            email,
+            password
+        }, {
+            headers: {
+                "Content-Type": "application/json"
+            },
+            withCredentials: true 
+        });
 
-      if(response.status === 200){
-        console.log('Login success');
-        navigate('/admin')
         
-      }
-    }catch(error){
-      console.log(error)
+        if (response.status === 200) {
+            console.log('Login success');
+            navigate('/admin');
+        }
+    } catch (error) {
+        console.log("Login Error:", error);
     }
-  };
+};
+
 
   return (
      <Container className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>

@@ -56,14 +56,24 @@ function VideoList() {
             <p>No video Available</p>
         ):
         videos.map((video) => (
-            <Card className='me-3' style={{ width: '18rem' }}>
-            <Card.Img variant="top" src={video.image.length > 0 ? `${apiUrl}/uploads/${video.image[0]}`  : "" } alt={video.title} />
+            <Card className="me-3" style={{ width: "18rem" }}>
+              <Card.Img
+                variant="top"
+                src={
+                  video.image.length > 0
+                    ? `https://video-sample.onrender.com/${video.image[0]}`
+                    : ""
+                }
+                alt={video.title}
+              />
 
             <Card.Body>
               <Card.Title>{video.title}</Card.Title>
               <Card.Text>
-                {video.description}
-              </Card.Text>
+                  {video.description.length > 100
+                    ? `${video.description.slice(0, 100)}....`
+                    : video.description}
+                </Card.Text>
               <Button onClick={() => handleDeleteVideo(video._id)} variant="danger" >Delete</Button>
               <Button variant="primary" className='ms-1' onClick={() => handelWatchVideo(video.videoLink)}>Watch</Button>
               <Button variant="secondary" className='ms-1'  onClick={() => handleEditVideo(video._id)}>Update</Button>
