@@ -70,11 +70,11 @@ router.post('/videos', upload.array('image'),async (req, res) =>{
 //get all videos
 router.get('/videos' ,  async (req,res) =>{
     try{
-        const admin = req.session.adminId
+        // const admin = req.session.adminId
 
-        if(!admin){
-            return res.status(400).json({message:"Admin not authenticated"})
-        }
+        // if(!admin){
+        //     return res.status(400).json({message:"Admin not authenticated"})
+        // }
         const videos = await videoModel.find()
         res.status(201).json(videos)
     }catch(error){
@@ -89,11 +89,11 @@ router.get('/videos' ,  async (req,res) =>{
 router.get('/videos/:id', async (req,res) =>{
     try{
         const videoId = req.params.id
-        const admin = req.session.adminId
+        // const admin = req.session.adminId
 
-        if(!admin){
-            return res.status(400).json({message:"Admin not authenticated"})
-        }
+        // if(!admin){
+        //     return res.status(400).json({message:"Admin not authenticated"})
+        // }
         const video = await videoModel.findById(videoId)
         if(!video){
             return res.status(404).json({message:"video not found"})
@@ -141,6 +141,11 @@ router.put('/videos/:id', upload.array('image'), async (req,res) =>{
 router.delete('/videos/:id', async (req,res) =>{
     try{
         const {id} = req.params
+        const admin= req.session.adminId
+
+        if(!admin){
+            return res.status(400).json({message:"Admin not authenticated"})
+        }
         const deleteVideo = await videoModel.findByIdAndDelete(id)
         if(!deleteVideo){
             return res.status(404).json({message:"Video not found"})
