@@ -34,7 +34,7 @@ router.get('/login', async(req,res) =>{
             return res.status(400).json({message:"Admin not found"})
         }
 
-        if(role !== 'admin'){
+        if(admin.role !== 'admin'){
             return res.status(400).json({message:"invalid role"})
         }
 
@@ -84,7 +84,7 @@ router.post('/forgot-password',async(req,res) =>{
 
         //create 6 digit otp
         const otp = crypto.randomInt(100000,999999).toString()
-
+ 
         adminExist.resetPassword = otp
         await adminExist.save()
 

@@ -13,7 +13,7 @@ require('dotenv').config()
 connectDB()
 
 app.use(cors({
-    origin: "https://fascinating-quokka-5782f6.netlify.app",
+    origin: "https://resonant-gecko-5bc789.netlify.app/",
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"]
 }))
