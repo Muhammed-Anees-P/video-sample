@@ -13,7 +13,7 @@ function LoginPage() {
     e.preventDefault();
 
     try{
-      const response = axios.get(`${apiUrl}/admin`, {
+      const response = axios.get(`${apiUrl}/login`, {
         headers:{
           "Content-Type":"application/json"
         },
