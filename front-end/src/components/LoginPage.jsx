@@ -20,18 +20,18 @@ function LoginPage() {
             headers: {
                 "Content-Type": "application/json"
             },
-            withCredentials: true 
+            withCredentials: true
         });
 
-        
         if (response.status === 200) {
             console.log('Login success');
             navigate('/admin');
         }
     } catch (error) {
-        console.log("Login Error:", error);
+        console.log("Login Error:", error.response?.data?.message || "Something went wrong");
     }
 };
+
 
 
   return (

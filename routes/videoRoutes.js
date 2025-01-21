@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const videoModel = require('../models/videoModel')
-// const path = require('path')
+const path = require('path')
 
 
 
@@ -9,14 +9,15 @@ const videoModel = require('../models/videoModel')
 const multer = require('multer')
 const storage = multer.diskStorage({
     destination:(req,file,callback)=>{
-        callback(null,'uploads')
+        callback(null,path.join(__dirname,'../public/uploads'))
     },
     filename:(req,file,callback)=>{
-        // const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-        callback(null, file.originalname);
+        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+        callback(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname));
     }
 })
 
+// const upload =multer({storage})
 const upload =multer({storage})
 
 
@@ -35,11 +36,14 @@ router.post('/videos', upload.array('image'),async (req, res) =>{
         if(!admin){
             return res.status(400).json({message:"Admin not authenticated"})
         }
+
+        const imagePaths = req.files ? req.files.map(file => `../uploads/${file.filename}`) : [];
+
     
         const newVideo = new videoModel({
             title,
             description,
-            image ,
+            image: imagePaths,
             videoLink, 
             createdBy:admin
         })
@@ -48,13 +52,6 @@ router.post('/videos', upload.array('image'),async (req, res) =>{
             return res.send("image required");
           }
 
-          if (req.files) {
-            let path = [];
-            req.files.forEach((fileName) => {
-              path.push(fileName.path);
-            });
-            newVideo.image = path;
-          }
       
 
         await newVideo.save()
@@ -120,7 +117,7 @@ router.put('/videos/:id', upload.array('image'), async (req,res) =>{
             return res.status(400).json({message:"All fields are required"})
         } 
 
-        const imagePaths = req.files.map((file) => file.path);
+        const imagePaths = req.files ? req.files.map(file => `../uploads/${file.filename}`) : [];
         const updatedVideo = await videoModel.findByIdAndUpdate(id,
             {title,description,image:imagePaths,videoLink, createdBy:admin},
             {new:true}

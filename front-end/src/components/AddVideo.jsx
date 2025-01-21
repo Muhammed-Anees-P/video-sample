@@ -5,81 +5,93 @@ import Button from "react-bootstrap/Button";
 import { useNavigate } from "react-router-dom";
 import { apiUrl } from "../../api/api";
 
-
 function AddVideo() {
+  console.log('Add video page loading');
 
-  console.log('add video page loading');
-  
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [image, setImage] = useState(null);
   const [videoLink, setVideoLink] = useState("");
 
+  const handleFileChange = (e) => {
+    setImage(e.target.files[0]);
+  };
 
-  const handleFileChange = (e) =>{
-    setImage(e.target.files[0])
-  }
+  const navigate = useNavigate();
 
- const formData = new FormData()
- formData.append("title", title)
- formData.append("description", description)
- formData.append("videoLink", videoLink)
-
- if(image){
-    formData.append("image", image)
- }
- const navigate = useNavigate(); 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    // Initialize FormData inside the handleSubmit function
+    const formData = new FormData();
+    formData.append("title", title);
+    formData.append("description", description);
+    formData.append("videoLink", videoLink);
+
+    // Ensure the image is attached to formData
+    if (image) {
+      formData.append("image", image);
+    }
+
+    // Log the FormData to verify its contents
+    console.log("FormData before submission:", formData);
+
     try {
-      const response = await axios.post(`${apiUrl}/videos`, formData,{
-       headers:{
-        "Content-Type":"multipart/form-data"
-       }
+      const response = await axios.post(`${apiUrl}/videos`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data"
+        }
       });
-      console.log("video added" , response.data)
+
+      console.log("Video added", response.data);
       window.alert("Video added successfully!");
       navigate("/admin/view-video");
     } catch (error) {
-      console.log(error);
+      console.log("Error adding video", error);
+      window.alert("Failed to add video.");
     }
   };
-  return (
-    <>
-      <Form onSubmit={handleSubmit}>
-        <Form.Group className="mb-3">
-          <Form.Label> Title</Form.Label>
-          <Form.Control
-            placeholder="Enter video title"
-            onChange={(e) => setTitle(e.target.value)} required
-          />
-        </Form.Group>
-        <Form.Group className="mb-3">
-          <Form.Label> Description</Form.Label>
-          <Form.Control
-            placeholder="Enter video description"
-            onChange={(e) => setDescription(e.target.value)} required
-          />
-        </Form.Group>
-        <Form.Group className="mb-3">
-          <Form.Label> Image</Form.Label>
-          <Form.Control placeholder="l" type="file" onChange={handleFileChange} required />
-        </Form.Group>
-        <Form.Group className="mb-3">
-          <Form.Label> Video Link</Form.Label>
-          <Form.Control
-            placeholder="Enter video Link"
-            onChange={(e) => setVideoLink(e.target.value)} required
-          />
-        </Form.Group>
-        <Button type="submit">Submit</Button>
-        <Button type="reset" className="ms-4 btn btn-danger">
-          Reset
-        </Button>
-      </Form>
 
-    </>
+  return (
+    <Form onSubmit={handleSubmit}>
+      <Form.Group className="mb-3">
+        <Form.Label>Title</Form.Label>
+        <Form.Control
+          placeholder="Enter video title"
+          onChange={(e) => setTitle(e.target.value)}
+          required
+        />
+      </Form.Group>
+      <Form.Group className="mb-3">
+        <Form.Label>Description</Form.Label>
+        <Form.Control
+          placeholder="Enter video description"
+          onChange={(e) => setDescription(e.target.value)}
+          required
+        />
+      </Form.Group>
+      <Form.Group className="mb-3">
+        <Form.Label>Image</Form.Label>
+        <Form.Control
+          placeholder="Choose image"
+          type="file"
+          onChange={handleFileChange}
+          required
+        />
+      </Form.Group>
+      <Form.Group className="mb-3">
+        <Form.Label>Video Link</Form.Label>
+        <Form.Control
+          placeholder="Enter video link"
+          onChange={(e) => setVideoLink(e.target.value)}
+          required
+        />
+      </Form.Group>
+      <Button type="submit">Submit</Button>
+      <Button type="reset" className="ms-4 btn btn-danger">
+        Reset
+      </Button>
+    </Form>
   );
 }
 
