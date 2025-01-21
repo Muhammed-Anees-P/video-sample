@@ -7,6 +7,7 @@ import { apiUrl } from '../../api/api';
 function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("")
   const navigate = useNavigate(); 
 
   const handleLogin = async (e) => {
@@ -25,10 +26,15 @@ function LoginPage() {
 
         if (response.status === 200) {
             console.log('Login success');
+            setError("")
             navigate('/admin');
         }
     } catch (error) {
         console.log("Login Error:", error.response?.data?.message || "Something went wrong");
+        setError("Invalid details..!")
+        setTimeout(() => {
+          setError("")
+        }, 3000);
     }
 };
 
@@ -65,6 +71,7 @@ const handleResetPassword = () =>{
                     required
                   />
                 </Form.Group>
+                {error && <p className='text-danger'>{error}</p>}
     
                 <Button variant="primary" type="submit" className="w-100">
                   Login
