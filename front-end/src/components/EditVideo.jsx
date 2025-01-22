@@ -15,6 +15,7 @@ function EditVideo() {
     const [description, setDescription] = useState("");
     const [image, setImage] = useState(null);
     const [videoLink, setVideoLink] = useState("");
+    const [imageUrl, setImageUrl] = useState("")
 
     useEffect(() =>{
         fetchVideos()
@@ -27,6 +28,7 @@ function EditVideo() {
             setTitle(video.title)
             setDescription(video.description)
             setVideoLink(video.videoLink)
+            setImageUrl(video.imageUrl)
 
         }catch(error){
             console.log("error fetching videos", error);
@@ -44,6 +46,8 @@ function EditVideo() {
         formData.append("title", title)
         formData.append("description", description)
         formData.append("videoLink", videoLink)
+        formData.append('imageUrl', imageUrl)
+        
 
         if(image){
             formData.append("image", image)
@@ -85,6 +89,14 @@ function EditVideo() {
           <Form.Label> Image</Form.Label>
           <Form.Control placeholder="l" type="file" onChange={handleFileChange}  required  />
         </Form.Group>
+        <Form.Group className="mb-3">
+        <Form.Label>image Url</Form.Label>
+        <Form.Control
+          placeholder="Enter youtube video id"
+          onChange={(e) => setImageUrl(e.target.value)}
+          required
+        />
+      </Form.Group>
         <Form.Group className="mb-3">
           <Form.Label> Video Link</Form.Label>
           <Form.Control

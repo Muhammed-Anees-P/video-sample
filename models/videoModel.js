@@ -20,6 +20,10 @@ const videoSchema = new mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:'admin',
         required:true,
+    },
+    imageUrl:{
+        type:String,
+        required:true
     }
 },
 {timestamps:true}
