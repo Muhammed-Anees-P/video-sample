@@ -56,7 +56,7 @@ function VideoList() {
         ) : (
           videos.map((video) => (
             <Card key={video._id} className="me-3" style={{ width: "18rem" }}>
-              {/* <Card.Img
+              <Card.Img
                 variant="top"
                 src={
                   video.image.length > 0
@@ -64,9 +64,9 @@ function VideoList() {
                     : ""
                 }
                 alt={video.title}
-              /> */}
+              />
               
-              <Card.Img
+{/*               <Card.Img
                 variant="top"
                 src={
                   video.image
@@ -74,7 +74,7 @@ function VideoList() {
                     : ""
                 }
                 alt={video.title}
-              />
+              /> */}
               
 
               <Card.Body>
