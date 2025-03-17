@@ -38,9 +38,9 @@ router.post('/videos', upload.array('image'),async (req, res) =>{
             return res.status(400).json({message:"All fields are required"})
         }   
  
-        if(!admin){
-            return res.status(400).json({message:"Admin not authenticated"})
-        }
+        // if(!admin){
+        //     return res.status(400).json({message:"Admin not authenticated"})
+        // }
 
         const isAdmin = new mongoose.Types.ObjectId(admin)
 
@@ -121,9 +121,9 @@ router.put('/videos/:id', upload.array('image'), async (req,res) =>{
         //youtube imageurl
         const youtubeVideoId = `https://img.youtube.com/vi/${imageUrl}/hqdefault.jpg`
 
-        if(!admin){
-            return res.status(400).json({message:"Admin not authenticated"})
-        }
+        // if(!admin){
+        //     return res.status(400).json({message:"Admin not authenticated"})
+        // }
 
         if(!title || !description  || !videoLink){
             return res.status(400).json({message:"All fields are required"})
@@ -154,9 +154,9 @@ router.delete('/videos/:id', async (req,res) =>{
         const {id} = req.params
         const admin= req.session.adminId
 
-        if(!admin){
-            return res.status(400).json({message:"Admin not authenticated"})
-        }
+        // if(!admin){
+        //     return res.status(400).json({message:"Admin not authenticated"})
+        // }
         const deleteVideo = await videoModel.findByIdAndDelete(id)
         if(!deleteVideo){
             return res.status(404).json({message:"Video not found"})
