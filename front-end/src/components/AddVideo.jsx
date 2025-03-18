@@ -13,6 +13,7 @@ function AddVideo() {
   const [image, setImage] = useState(null);
   const [imageUrl, setImageUrl] = useState("")
   const [videoLink, setVideoLink] = useState("");
+  const [type, setType] = useState('')
 
   const handleFileChange = (e) => {
     setImage(e.target.files[0]);
@@ -31,6 +32,10 @@ function AddVideo() {
 
     if (image) {
       formData.append("image", image);
+    }
+
+    if(type) {
+      formData.append('type', type)
     }
 
 
@@ -94,6 +99,28 @@ function AddVideo() {
           required
         />
       </Form.Group>
+      <Form.Group className="mb-3">
+      <Form.Label>Type</Form.Label>
+        <div className="mb-2">
+        <Form.Check
+           type="checkbox"
+           label="Web"
+           value="web"
+           checked={type === "web"}
+           onChange={(e) => setType(e.target.checked ? "web" : "")}
+         />
+        </div>
+       <div>
+       <Form.Check
+            type="checkbox"
+            label="Mobile"
+            value="mobile"
+            checked={type === "mobile"}
+            onChange={(e) => setType(e.target.checked ? "mobile" : "")}
+          />
+         </div>
+        </Form.Group>
+
       <Button type="submit">Submit</Button>
       <Button type="reset" className="ms-4 btn btn-danger">
         Reset
