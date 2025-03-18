@@ -5,6 +5,7 @@ import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import { useNavigate } from "react-router-dom";
 import { apiUrl } from "../../api/api";
+import Swal from 'sweetalert2'
 
 function VideoList() {
   const [videos, setVideos] = useState([]);
@@ -24,17 +25,31 @@ function VideoList() {
   };
 
   const handleDeleteVideo = async (id) => {
-    try {
-        console.log("id", id);
-        
-      const response = await axios.delete(`${apiUrl}/videos/${id}`,{
-        withCredentials:true
-      });
-      console.log("delete", response.data);
-      fetchVideos();
-    } catch (error) {
-      console.log("Error deleting video", error);
-    }
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if(result.isConfirmed) {
+        try {          
+        const response = await axios.delete(`${apiUrl}/videos/${id}`,{
+          withCredentials:true
+        });
+        if (response.status === 201) {
+          Swal.fire("Deleted!", "Your video has been deleted.", "success");
+          fetchVideos();
+        } else {
+          Swal.fire("Error!", "Unable to delete the video.", "error");
+        }
+      } catch (error) {
+        console.log("Error deleting video", error);
+      }
+      }
+    })
   };
 
   const handelWatchVideo = (videoLink) => {

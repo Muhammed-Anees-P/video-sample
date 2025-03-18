@@ -9,6 +9,8 @@ import axios from 'axios';
 import { apiUrl } from '../../api/api';
 import EditVideo from './EditVideo';
 import ForgotPassword from './ForgotPassword';
+import Swal from "sweetalert2";
+
 
 
 
@@ -19,13 +21,21 @@ function AdminPanal() {
   const handleLogout = async () =>{
     try{
       const response = await axios.post(`${apiUrl}/logout`)
-      alert('Successfully logout')
+      Swal.fire({
+        icon: "success",
+        title: "Success!",
+        text: "Successfully logged out.",
+        showConfirmButton: false,
+        timer: 2000,
+      });
       navigate('/')
 
     }catch(err){
-      console.log(err);
-      alert('Logout faild. Please try again')
-      
+      Swal.fire({
+        icon: "error",
+        title: "Error!",
+        text: "Logout failed. Please try again.",
+      });   
     }
   }
 

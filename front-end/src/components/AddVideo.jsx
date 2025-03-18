@@ -4,6 +4,8 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { useNavigate } from "react-router-dom";
 import { apiUrl } from "../../api/api";
+import Swal from "sweetalert2";
+
 
 function AddVideo() {
   console.log('Add video page loading');
@@ -46,13 +48,21 @@ function AddVideo() {
         },
         withCredentials:true
       });
-
-      console.log("Video added", response.data);
-      window.alert("Video added successfully!");
+      Swal.fire({
+        icon: "success",
+        title: "Success!",
+        text: "Video added successfully!",
+        showConfirmButton: false,
+        timer: 2000,
+      });
       navigate("/admin/view-video");
     } catch (error) {
       console.log("Error adding video", error);
-      window.alert("Failed to add video.");
+      Swal.fire({
+        icon: "error",
+        title: "Error!",
+        text: "Failed to add video. Please try again.",
+      });
     }
   };
 
