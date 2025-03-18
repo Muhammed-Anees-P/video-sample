@@ -26,7 +26,7 @@ const upload =multer({storage})
 //add videos
 router.post('/videos', upload.array('image'),async (req, res) =>{
     try{
-        const {title, description, videoLink, imageUrl} = req.body;
+        const {title, description, videoLink, imageUrl, type} = req.body;
         const admin = req.session.adminId
 
         // console.log(admin);
@@ -34,7 +34,7 @@ router.post('/videos', upload.array('image'),async (req, res) =>{
         //youtube imageurl
         const youtubeVideoId = `https://img.youtube.com/vi/${imageUrl}/hqdefault.jpg`
 
-        if(!title || !description  || !videoLink){
+        if(!title || !description  || !videoLink || !type){
             return res.status(400).json({message:"All fields are required"})
         }   
  
@@ -54,7 +54,8 @@ router.post('/videos', upload.array('image'),async (req, res) =>{
             image: imagePaths,
             videoLink, 
             createdBy:isAdmin,
-            imageUrl:youtubeVideoId
+            imageUrl:youtubeVideoId,
+            type
         })
 
         if (req.files[0] == undefined) {          
@@ -81,7 +82,9 @@ router.get('/videos' ,  async (req,res) =>{
         // if(!admin){
         //     return res.status(400).json({message:"Admin not authenticated"})
         // }
-        const videos = await videoModel.find()
+        const {type} = req.query
+        const filter = type ? {type} : {}
+        const videos = await videoModel.find(filter)
         res.status(201).json(videos)
     }catch(error){
         console.log(error)
@@ -115,7 +118,7 @@ router.get('/videos/:id', async (req,res) =>{
 router.put('/videos/:id', upload.array('image'), async (req,res) =>{
     try{
         const {id} = req.params
-        const {title, description, videoLink, imageUrl} = req.body;
+        const {title, description, videoLink, imageUrl, type} = req.body;
         const admin= req.session.adminId
 
         //youtube imageurl
@@ -125,7 +128,7 @@ router.put('/videos/:id', upload.array('image'), async (req,res) =>{
         //     return res.status(400).json({message:"Admin not authenticated"})
         // }
 
-        if(!title || !description  || !videoLink){
+        if(!title || !description  || !videoLink || !type){
             return res.status(400).json({message:"All fields are required"})
         } 
 
@@ -133,7 +136,7 @@ router.put('/videos/:id', upload.array('image'), async (req,res) =>{
 
         const imagePaths = req.files ? req.files.map(file => `../uploads/${file.filename}`) : [];
         const updatedVideo = await videoModel.findByIdAndUpdate(id,
-            {title,description,image:imagePaths,videoLink, createdBy:isAdmin, imageUrl:youtubeVideoId},
+            {title,description,image:imagePaths,videoLink, createdBy:isAdmin, imageUrl:youtubeVideoId,type},
             {new:true}
         )
         if(!updatedVideo){
