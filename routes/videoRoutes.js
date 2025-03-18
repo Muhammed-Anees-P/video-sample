@@ -21,26 +21,32 @@ const storage = multer.diskStorage({
 // const upload =multer({storage})
 const upload =multer({storage})
 
+//extract thumbnail from youtube video
+// Utility to extract YouTube video ID
+const extractYouTubeVideoId = (url) => {
+    const regex =
+      /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/;
+    const match = url.match(regex);
+    return match ? match[1] : null;
+  };
+  
+
 
 
 //add videos
 router.post('/videos', upload.array('image'),async (req, res) =>{
     try{
-        const {title, description, videoLink, imageUrl, type} = req.body;
+        const {title, description, videoLink, type} = req.body;
         const admin = req.session.adminId
-
-        // console.log(admin);
         
-        //youtube imageurl
-        const youtubeVideoId = `https://img.youtube.com/vi/${imageUrl}/hqdefault.jpg`
 
         if(!title || !description  || !videoLink || !type){
             return res.status(400).json({message:"All fields are required"})
         }   
- 
-        // if(!admin){
-        //     return res.status(400).json({message:"Admin not authenticated"})
-        // }
+
+        const videoId = extractYouTubeVideoId(videoLink)
+        //youtube imageurl
+        const youtubeVideoId = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`
 
         const isAdmin = new mongoose.Types.ObjectId(admin)
 
@@ -77,11 +83,6 @@ router.post('/videos', upload.array('image'),async (req, res) =>{
 //get all videos
 router.get('/videos' ,  async (req,res) =>{
     try{
-        // const admin = req.session.adminId
-
-        // if(!admin){
-        //     return res.status(400).json({message:"Admin not authenticated"})
-        // }
         const {type} = req.query
         const filter = type ? {type} : {}
         const videos = await videoModel.find(filter)
@@ -89,7 +90,6 @@ router.get('/videos' ,  async (req,res) =>{
     }catch(error){
         console.log(error)
         res.status(500).json({message:"internal server error"})
-        
     }
 })
 
@@ -98,11 +98,6 @@ router.get('/videos' ,  async (req,res) =>{
 router.get('/videos/:id', async (req,res) =>{
     try{
         const videoId = req.params.id
-        // const admin = req.session.adminId
-
-        // if(!admin){
-        //     return res.status(400).json({message:"Admin not authenticated"})
-        // }
         const video = await videoModel.findById(videoId)
         if(!video){
             return res.status(404).json({message:"video not found"})
@@ -118,19 +113,16 @@ router.get('/videos/:id', async (req,res) =>{
 router.put('/videos/:id', upload.array('image'), async (req,res) =>{
     try{
         const {id} = req.params
-        const {title, description, videoLink, imageUrl, type} = req.body;
+        const {title, description, videoLink,type} = req.body;
         const admin= req.session.adminId
-
-        //youtube imageurl
-        const youtubeVideoId = `https://img.youtube.com/vi/${imageUrl}/hqdefault.jpg`
-
-        // if(!admin){
-        //     return res.status(400).json({message:"Admin not authenticated"})
-        // }
 
         if(!title || !description  || !videoLink || !type){
             return res.status(400).json({message:"All fields are required"})
         } 
+        const videoId = extractYouTubeVideoId(videoLink);
+        
+        //youtube imageurl
+        const youtubeVideoId = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`
 
         const isAdmin = new mongoose.Types.ObjectId(admin)
 
@@ -155,11 +147,6 @@ router.put('/videos/:id', upload.array('image'), async (req,res) =>{
 router.delete('/videos/:id', async (req,res) =>{
     try{
         const {id} = req.params
-        const admin= req.session.adminId
-
-        // if(!admin){
-        //     return res.status(400).json({message:"Admin not authenticated"})
-        // }
         const deleteVideo = await videoModel.findByIdAndDelete(id)
         if(!deleteVideo){
             return res.status(404).json({message:"Video not found"})
