@@ -6,9 +6,12 @@ import Card from "react-bootstrap/Card";
 import { useNavigate } from "react-router-dom";
 import { apiUrl } from "../../api/api";
 import Swal from 'sweetalert2'
+import { Form } from "react-bootstrap";
 
 function VideoList() {
   const [videos, setVideos] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filter, setFilter] = useState("all");
   const navigate = useNavigate();
   useEffect(() => {
     fetchVideos();
@@ -18,7 +21,7 @@ function VideoList() {
     try {
       const response = await axios.get(`${apiUrl}/videos`);
       setVideos(response.data);
-      // console.log(response.data, "response data")
+      console.log(response.data, "response data")
     } catch (error) {
       console.log("Error fetching videos", error);
     }
@@ -60,17 +63,45 @@ function VideoList() {
     navigate(`/admin/edit-video/${id}`);
   };
 
-//   const photo = videos.map((i) => {
-//     console.log("image : ", i.image);
-//   });
+  const filtervideos = videos.filter((video) => {
+    if(filter === 'mobile') {
+      return video.type === 'mobile'
+    }else if (filter === "web") {
+      return video.type === "web";
+    }
+    return true;
+  }).filter((video) => {
+    return (
+      video.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      video.description.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  })
 
   return (
     <div className="container">
+      <div className="d-flex justify-content-between mb-3">
+        <Form.Control
+          type="text"
+          placeholder="Search by title or description"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          style={{ width: "60%" }}
+        />
+        <Form.Select
+          value={filter}
+          onChange={(e) => setFilter(e.target.value)}
+          style={{ width: "35%" }}
+        >
+          <option value="all">All</option>
+          <option value="mobile">Mobile</option>
+          <option value="web">Web</option>
+        </Form.Select>
+      </div>
       <div className="row row-cols-2 row-cols-md-3 row-cols-xl-4 g-4">
-        {videos.length === 0 ? (
+        {filtervideos.length === 0 ? (
           <p>No video Available</p>
         ) : (
-          videos.map((video) => (
+          filtervideos.map((video) => (
             <Card key={video._id} className="me-3" style={{ width: "18rem" }}>
               {/* <Card.Img
                 variant="top"
@@ -81,8 +112,17 @@ function VideoList() {
                 }
                 alt={video.title}
               /> */}
+                <Card.Img
+                variant="top"
+                src={
+                  video.image.length > 0
+                    ? `${video.imageUrl}`
+                    : ""
+                }
+                alt={video.title}
+              />
               
-              <Card.Img
+              {/* <Card.Img
                 variant="top"
                 src={
                   video.image
@@ -90,7 +130,7 @@ function VideoList() {
                     : ""
                 }
                 alt={video.title}
-              />
+              /> */}
               
 
               <Card.Body>
