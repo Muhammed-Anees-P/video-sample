@@ -22,7 +22,6 @@ const storage = multer.diskStorage({
 const upload =multer({storage})
 
 //extract thumbnail from youtube video
-// Utility to extract YouTube video ID
 const extractYouTubeVideoId = (url) => {
     const regex =
       /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/;

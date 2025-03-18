@@ -13,7 +13,6 @@ function AddVideo() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [image, setImage] = useState(null);
-  const [imageUrl, setImageUrl] = useState("")
   const [videoLink, setVideoLink] = useState("");
   const [type, setType] = useState('')
 
@@ -30,7 +29,6 @@ function AddVideo() {
     formData.append("title", title);
     formData.append("description", description);
     formData.append("videoLink", videoLink);
-    formData.append('imageUrl', imageUrl)
 
     if (image) {
       formData.append("image", image);
@@ -90,14 +88,6 @@ function AddVideo() {
           placeholder="Choose image"
           type="file"
           onChange={handleFileChange}
-          required
-        />
-      </Form.Group>
-      <Form.Group className="mb-3">
-        <Form.Label>image Url</Form.Label>
-        <Form.Control
-          placeholder="Enter video id"
-          onChange={(e) => setImageUrl(e.target.value)}
           required
         />
       </Form.Group>
